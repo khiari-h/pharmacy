@@ -2,99 +2,167 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Pharmacie {
-   private ArrayList<ProduitPharmaceutique> produits;
+    private ArrayList<ProduitPharmaceutique> produits;
 
-   public Pharmacie() {
-      produits = new ArrayList<>();
-   }
+    public Pharmacie() {
+        produits = new ArrayList<>();
+    }
 
-   public void ajouterProduit(ProduitPharmaceutique produit) {
-      produits.add(produit);
-   }
+    public void ajouterProduit(ProduitPharmaceutique produit) {
+        produits.add(produit);
+    }
 
-   public void supprimerProduit(int index) {
-      produits.remove(index);
-   }
+    public void supprimerProduit(int index) {
+        produits.remove(index);
+    }
 
-   public void afficherProduits() {
-      for (ProduitPharmaceutique produit : produits) {
-         System.out.println(produit);
-      }
-   }
+    public void afficherProduits() {
+        for (ProduitPharmaceutique produit : produits) {
+            System.out.println(produit);
+        }
+    }
 
-   public static void main(String[] args) {
-      Pharmacie pharmacie = new Pharmacie();
-      Scanner scanner = new Scanner(System.in);
+    public void rechercherProduitParNom(String nom) {
+        boolean trouve = false;
+        for (ProduitPharmaceutique produit : produits) {
+            if (produit.getNom().equalsIgnoreCase(nom)) {
+                System.out.println(produit);
+                trouve = true;
+            }
+        }
+        if (!trouve) {
+            System.out.println("Aucun produit trouvé avec ce nom.");
+        }
+    }
 
-      boolean continuer = true;
+    public void rechercherProduitParIngredientActif(String ingredient) {
+        boolean trouve = false;
+        for (ProduitPharmaceutique produit : produits) {
+            if (produit.getIngredientActif().equalsIgnoreCase(ingredient)) {
+                System.out.println(produit);
+                trouve = true;
+            }
+        }
+        if (!trouve) {
+            System.out.println("Aucun produit trouvé avec cet ingrédient actif.");
+        }
+    }
 
-      while (continuer) {
-         System.out.println("Que voulez-vous faire?");
-         System.out.println("1. Ajouter un produit");
-         System.out.println("2. Supprimer un produit");
-         System.out.println("3. Afficher les produits");
-         System.out.println("4. Quitter");
+    public void rechercherProduitParConditionMedicale(String condition) {
+        boolean trouve = false;
+        for (ProduitPharmaceutique produit : produits) {
+            if (produit.getConditionMedicale().equalsIgnoreCase(condition)) {
+                System.out.println(produit);
+                trouve = true;
+            }
+        }
+        if (!trouve) {
+            System.out.println("Aucun produit trouvé avec cette condition médicale.");
+        }
+    }
 
-         int choix = scanner.nextInt();
+    public void mettreAJourStockProduit(int index, int nouvelleQuantite) {
+        ProduitPharmaceutique produit = produits.get(index);
+        produit.setQuantite(nouvelleQuantite);
+    }
 
-         switch (choix) {
-            case 1:
-               // Demander à l'utilisateur les informations sur le nouveau produit et l'ajouter à la pharmacie
-               break;
-            case 2:
-               // Demander à l'utilisateur l'index du produit à supprimer et le supprimer de la pharmacie
-               break;
-            case 3:
-               pharmacie.afficherProduits();
-               break;
-            case 4:
-               continuer = false;
-               break;
-            default:
-               System.out.println("Choix invalide");
-               break;
-         }
-      }
+    public static void main(String[] args) {
+        Pharmacie pharmacie = new Pharmacie();
+        Scanner scanner = new Scanner(System.in);
 
-      scanner.close();
-   }
-}
+        boolean continuer = true;
 
-class ProduitPharmaceutique {
-   private String nom;
-   private String ingredientActif;
-   private String conditionMedicale;
-   private int quantite;
+        while (continuer) {
+            System.out.println("Que voulez-vous faire?");
+            System.out.println("1. Ajouter un produit");
+            System.out.println("2. Supprimer un produit");
+            System.out.println("3. Afficher les produits");
+            System.out.println("4. Rechercher un produit par nom");
+            System.out.println("5. Rechercher un produit par ingrédient actif");
+            System.out.println("6. Rechercher un produit par condition médicale");
+            System.out.println("7. Mettre à jour le stock d'un produit");
+            System.out.println("8. Quitter");
 
-   public ProduitPharmaceutique(String nom, String ingredientActif, String conditionMedicale, int quantite) {
-      this.nom = nom;
-      this.ingredientActif = ingredientActif;
-      this.conditionMedicale = conditionMedicale;
-      this.quantite = quantite;
-   }
+            int choix = scanner.nextInt();
+            scanner.nextLine();
 
-   public String getNom() {
-      return nom;
-   }
+            switch (choix) {
+                case 1:
+                    // Demander à l'utilisateur les informations sur le nouveau produit et l'ajouter à la pharmacie
+                    System.out.print("Nom du produit: ");
+                    String nom = scanner.nextLine();
 
-   public String getIngredientActif() {
-      return ingredientActif;
-   }
+                    System.out.print("Ingrédient actif: ");
+                    String ingredientActif = scanner.nextLine();
 
-   public String getConditionMedicale() {
-      return conditionMedicale;
-   }
+                    System.out.print("Condition médicale: ");
+                    String conditionMedicale = scanner.nextLine();
 
-   public int getQuantite() {
-      return quantite;
-   }
+                    System.out.print("Quantité: ");
+                    int quantite = scanner.nextInt();
+                    scanner.nextLine();
 
-   public void setQuantite(int quantite) {
-      this.quantite = quantite;
-   }
+                    System.out.print("Prix: ");
+                    double prix = scanner.nextDouble();
+                    scanner.nextLine();
 
-   @Override
-   public String toString() {
-      return nom + " - " + ingredientActif + " - " + conditionMedicale + " - " + quantite;
-   }
+                    ProduitPharmaceutique nouveauProduit = new ProduitPharmaceutique(nom, ingredientActif, conditionMedicale, quantite, prix);
+                    pharmacie.ajouterProduit(nouveauProduit);
+                    break;
+                case 2:
+                    // Demander à l'utilisateur l'index du produit à supprimer et le supprimer de la pharmacie
+                    System.out.print("Index du produit à supprimer: ");
+                    int indexASupprimer = scanner.nextInt();
+                    scanner.nextLine();
+
+                    pharmacie.supprimerProduit(indexASupprimer);
+                    break;
+                case 3:
+                    // Afficher tous les produits de la pharmacie
+                    pharmacie.afficherProduits();
+                    break;
+                case 4:
+                    // Demander à l'utilisateur le nom du produit à rechercher et afficher les résultats
+                    System.out.print("Nom du produit à rechercher: ");
+                    String nomRecherche = scanner.nextLine();
+
+                    pharmacie.rechercherProduitParNom(nomRecherche);
+                    break;
+                case 5:
+                    // Demander à l'utilisateur l'ingrédient actif à rechercher et afficher les résultats
+                    System.out.print("Ingrédient actif à rechercher: ");
+                    String ingredientRecherche = scanner.nextLine();
+
+                    pharmacie.rechercherProduitParIngredientActif(ingredientRecherche);
+                    break;
+                case 6:
+                    // Demander à l'utilisateur la condition médicale à rechercher et afficher les résultats
+                    System.out.print("Condition médicale à rechercher: ");
+                    String conditionRecherche = scanner.nextLine();
+
+                    pharmacie.rechercherProduitParConditionMedicale(conditionRecherche);
+                    break;
+                case 7:
+                    // Demander à l'utilisateur l'index du produit à mettre à jour et la nouvelle quantité
+                    System.out.print("Index du produit à mettre à jour: ");
+                    int indexAMettreAJour = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.print("Nouvelle quantité: ");
+                    int nouvelleQuantite = scanner.nextInt();
+                    scanner.nextLine();
+
+                    pharmacie.mettreAJourStockProduit(indexAMettreAJour, nouvelleQuantite);
+                    break;
+                case 8:
+                    // Quitter l'application
+                    continuer = false;
+                    break;
+                default:
+                    System.out.println("Choix invalide. Veuillez réessayer.");
+            }
+        }
+
+        scanner.close();
+    }
 }
