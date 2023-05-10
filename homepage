@@ -1,0 +1,100 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Pharmacie {
+   private ArrayList<ProduitPharmaceutique> produits;
+
+   public Pharmacie() {
+      produits = new ArrayList<>();
+   }
+
+   public void ajouterProduit(ProduitPharmaceutique produit) {
+      produits.add(produit);
+   }
+
+   public void supprimerProduit(int index) {
+      produits.remove(index);
+   }
+
+   public void afficherProduits() {
+      for (ProduitPharmaceutique produit : produits) {
+         System.out.println(produit);
+      }
+   }
+
+   public static void main(String[] args) {
+      Pharmacie pharmacie = new Pharmacie();
+      Scanner scanner = new Scanner(System.in);
+
+      boolean continuer = true;
+
+      while (continuer) {
+         System.out.println("Que voulez-vous faire?");
+         System.out.println("1. Ajouter un produit");
+         System.out.println("2. Supprimer un produit");
+         System.out.println("3. Afficher les produits");
+         System.out.println("4. Quitter");
+
+         int choix = scanner.nextInt();
+
+         switch (choix) {
+            case 1:
+               // Demander à l'utilisateur les informations sur le nouveau produit et l'ajouter à la pharmacie
+               break;
+            case 2:
+               // Demander à l'utilisateur l'index du produit à supprimer et le supprimer de la pharmacie
+               break;
+            case 3:
+               pharmacie.afficherProduits();
+               break;
+            case 4:
+               continuer = false;
+               break;
+            default:
+               System.out.println("Choix invalide");
+               break;
+         }
+      }
+
+      scanner.close();
+   }
+}
+
+class ProduitPharmaceutique {
+   private String nom;
+   private String ingredientActif;
+   private String conditionMedicale;
+   private int quantite;
+
+   public ProduitPharmaceutique(String nom, String ingredientActif, String conditionMedicale, int quantite) {
+      this.nom = nom;
+      this.ingredientActif = ingredientActif;
+      this.conditionMedicale = conditionMedicale;
+      this.quantite = quantite;
+   }
+
+   public String getNom() {
+      return nom;
+   }
+
+   public String getIngredientActif() {
+      return ingredientActif;
+   }
+
+   public String getConditionMedicale() {
+      return conditionMedicale;
+   }
+
+   public int getQuantite() {
+      return quantite;
+   }
+
+   public void setQuantite(int quantite) {
+      this.quantite = quantite;
+   }
+
+   @Override
+   public String toString() {
+      return nom + " - " + ingredientActif + " - " + conditionMedicale + " - " + quantite;
+   }
+}
